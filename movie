@@ -1,0 +1,107 @@
+package hw1;
+
+import java.util.ArrayList;
+
+public class Movie {
+	
+	private String name;
+	private String genre;
+	private int year;
+	private String director;
+
+	
+	private static ArrayList<String> actor=new ArrayList<String>();
+	
+    
+	public ArrayList<String> getActor() {
+		return actor;
+	}
+
+	public void setActor(ArrayList<String> actor) {
+		this.actor = actor;
+	}
+
+	
+	public Movie(String name,String genre,int year, String directorName) {
+	
+		this.name = name;
+		this.genre=genre;
+        this.year = year;
+		director=directorName;
+		
+	}
+	
+	public Movie(String name,int year,String genre, String directorName) {
+		
+		this.name = name;
+		this.genre=genre;
+        this.year = year;
+		director=directorName;
+		
+	}
+	
+	
+	public Movie(String name, ArrayList<String> actor) {
+		super();
+		this.name = name;
+		this.actor = actor;
+	}
+
+
+	
+
+
+	public String getName() {
+		return name;
+	}
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+	public String getGenre() {
+		return genre;
+	}
+
+
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+
+
+	public int getYear() {
+		return year;
+	}
+
+
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+
+
+	public String getDirector() {
+		return director;
+	}
+
+
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
+
+	
+	@Override
+	public String toString() {
+		return "Movie [name=" + name + ", genre=" + genre + ", year=" + year
+				+ ", director=" + director + "]";
+	}
+
+}
