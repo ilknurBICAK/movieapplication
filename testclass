@@ -1,0 +1,278 @@
+package hw1;
+
+
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class HW1 implements MovieAppInt  {
+    public static ArrayList<User> users;
+	public static ArrayList<Movie> movies;
+	public static ArrayList<Rating> rating;
+
+    public HW1(){
+		users=new ArrayList();
+		movies=new ArrayList();
+		rating=new ArrayList();
+		
+    }
+	
+	public void addMovie(String movieName, int year, String genre,String directorName)throws Exception
+	{
+		
+		for(int i=0;i<movies.size();i++){
+			
+			if(movies.get(i).getName().equals(movieName))
+				
+				throw new Exception("Movie Already Exists ");
+		
+	}
+	movies.add(new Movie( movieName, year, genre,directorName));
+	}
+	
+	
+	
+	@Override
+	public void deleteMovie(String movieName)throws Exception
+	{
+	    for(int i=0;i<movies.size();i++)
+	    {
+		if(movies.get(i).getName().equalsIgnoreCase(movieName))
+		{
+			movies.remove(i);  
+		return;
+		}
+		}
+      throw new Exception("Movie Does Not Exists");
+		    
+	}
+	
+@Override
+	public void rateMovie(String movieName, String userName, int rate)throws Exception
+	{
+	
+		
+		for(int i=0;i<movies.size();i++)
+		{
+			if(movies.get(i).getName().equalsIgnoreCase(movieName))
+			{
+                rating.add(new Rating (movieName,userName,rate));
+				return;
+			}
+		
+		}
+		
+		throw new Exception(" Movie Does Not Exists ");
+		
+	}
+	
+	
+	@Override
+	public void listMovies(String fileName) throws Exception
+	{
+		 
+		File f=new File(fileName);
+		
+        FileWriter fr=new FileWriter(f);
+        
+        BufferedWriter br=new BufferedWriter(fr);
+        
+        
+      if(f.exists()==false)
+      {
+        	 throw  new Exception("File Not Exists");
+      }
+      
+      int sumOfScore=0;
+      int counter=0;
+      double averageRating=0.0;
+      
+	  for(int i=0;i<movies.size();i++){
+		
+		
+		br.write(movies.get(i).getName());
+		
+		br.newLine();
+		
+		br.write(movies.get(i).getDirector());
+		br.newLine();
+		br.write(String.valueOf(movies.get(i).getYear()));
+		br.newLine();
+		br.write(movies.get(i).getGenre());
+		br.newLine();
+		
+		for(int k=0;k<rating.size();k++){
+			
+			if(movies.get(i).getName().equals(rating.get(k).getMovieName())){
+				
+			 sumOfScore =+ rating.get(k).getScore();
+			 counter++;
+
+
+		}
+			
+			averageRating=(double)sumOfScore/counter;
+			
+			}
+			
+			
+			 if(counter>0){
+				 
+					br.write(String.valueOf(averageRating));
+			 }
+			 else
+			 {
+				 br.write(String.valueOf(0.0));
+			 }
+		
+			br.newLine();
+			
+			for(String actor:movies.get(i).getActor()){
+				br.write(actor);
+				br.write(",");
+			}
+			br.newLine();
+			br.newLine();
+			br.newLine();
+			br.newLine();
+		
+			
+			
+			}
+		
+	        	
+	     
+	br.close();
+		
+	}
+
+	@Override
+	public void addActor(String movieName, String actorName) {
+		for(int i=0;i<movies.size();i++){
+			
+			if(movieName.equalsIgnoreCase(movies.get(i).getName())){
+				movies.get(i).getActor().add(actorName);
+				
+				
+			}
+		}
+			
+	}
+	@Override
+	public void getMovieDataFromFile(String fileName) throws Exception
+	{
+File f=new File(fileName);
+		
+        FileReader fr=new FileReader(f);
+        
+        BufferedReader br=new BufferedReader(fr);
+        
+        
+      if(f.exists()==false)
+      {
+        	 throw  new Exception("File Not Exists");
+      }
+      
+	          String line = br.readLine();
+	          
+	          while (line != null) {
+	        	  
+	              String[] lineArr = line.split(";");
+	             
+	              
+	              movies.add(new Movie(lineArr[0],lineArr[1],Integer.parseInt(lineArr[2]),lineArr[3]));
+	              
+	              addActor(lineArr[0], lineArr[4]);
+	              
+	              line = br.readLine();
+	          }
+    
+	 }
+	            
+	     
+@Override
+	public void addUser(String username, int age, String gender) throws Exception
+	{
+		
+		for(int i=0;i<users.size();i++)
+		{
+			if(users.get(i).getUserName().equals(username))
+				throw new Exception("User Already Exists ");
+		}
+		users.add(new User(username,age,gender));
+		
+	}
+
+	@Override
+	public void deleteUser(String name) throws Exception{
+		
+       for(int i=0;i<movies.size();i++){
+    	   
+			if(users.get(i).getUserName().equalsIgnoreCase(name)){
+				users.remove(users.get(i));
+				return;
+			}
+				
+		
+	 }
+		throw new Exception("User Does Not Exist");
+		
+	}
+	
+	@Override
+	public void listRatings(String movieName, String fileName) throws Exception 
+	{
+		      	
+                      File f=new File(fileName);
+					  
+				      FileWriter fr=new FileWriter(f);
+				      
+				         if(f.exists()==false)
+				         {
+				        	 throw  new Exception("File Not Exists");
+				         }
+				       BufferedWriter br=new BufferedWriter(fr);
+				      
+					for(int y=0;y<rating.size();y++){
+						if(movieName.equalsIgnoreCase(rating.get(y).getMovieName()))
+						{
+							br.write(rating.get(y).getMovieName());
+							br.newLine();
+							br.write("___________________");
+							
+							br.newLine();
+							br.write(rating.get(y).getUserName()+","+rating.get(y).getScore());
+						}
+					}
+			        
+			        
+			       
+			       br.close();
+			         
+ }
+			        
+			
+			
+			
+public static void main(String[] args)throws Exception {
+	HW1 hw1=new HW1();
+	
+	hw1.getMovieDataFromFile("d:\\temp\\input.txt ");
+	hw1.rateMovie("Wolverine", "ilknur", 5);
+	hw1.listRatings("wolverine", "d:\\temp\\output.txt ");
+	hw1.listMovies("d:\\temp\\output.txt ");
+
+   
+
+		}
+
+
+
+
+}
