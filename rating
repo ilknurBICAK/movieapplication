@@ -1,0 +1,52 @@
+package hw1;
+
+import java.util.ArrayList;
+
+public class Rating {
+	private String movieName;
+	private String UserName;
+	private int score;
+	
+	
+	
+	public Rating(String movieName, String userName, int score) {
+
+		this.movieName = movieName;
+		UserName = userName;
+		this.score = score;
+	}
+	
+	
+	public String getMovieName() {
+		return movieName;
+	}
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
+	}
+	public String getUserName() {
+		return UserName;
+	}
+	public void setUserName(String userName) {
+		UserName = userName;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "Rating [movieName=" + movieName + ", UserName=" + UserName
+				+ ", score=" + score + "]";
+	}
+	
+	
+	
+	}
+	
+	
+	
+
